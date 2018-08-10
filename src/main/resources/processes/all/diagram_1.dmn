@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_03pqq0s" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_13nyxhf" name="Decision 1">
+    <extensionElements>
+      <biodi:bounds x="150" y="150" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable_1" hitPolicy="FIRST">
+      <input id="input_1" label="Service">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>service</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wsggce" label="Saison">
+        <inputExpression id="LiteralExpression_0wg1s4b" typeRef="string">
+          <text>saison</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Poste ouvert" name="ouvert" typeRef="boolean" />
+      <rule id="DecisionRule_02okqqc">
+        <description>Pour la CSD en été, recrutement en été</description>
+        <inputEntry id="UnaryTests_0v5w3gc">
+          <text>"csd"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10m3icv">
+          <text>"ete"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ty1mku">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kurflp">
+        <description>Autre cas, pas de poste ouvert</description>
+        <inputEntry id="UnaryTests_1a21dmk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13qw8d2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01xgzqt">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0r785yt">
+        <description></description>
+        <inputEntry id="UnaryTests_0tk7amg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09eiyvq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zviz9y">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

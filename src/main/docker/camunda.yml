@@ -1,0 +1,19 @@
+version: '2'
+services:
+    camunda-mysql:
+        extends:
+            file: camunda-mysql.yml
+            service: camunda-mysql
+    camunda:
+        image: camunda/camunda-bpm-platform
+        container_name: camunda_bpm
+        ports:
+          - '8051:8080'
+        environment:
+          DB_DRIVER: com.mysql.jdbc.Driver
+          DB_URL: jdbc:mysql://camunda-mysql:3306/camunda_db?autoReconnect=true
+          DB_USERNAME: root
+          DB_PASSWORD: root
+        depends_on:
+          - 'camunda-mysql'
+        

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:modeler="http://activiti.com/modeler" targetNamespace="http://www.activiti.org/processdef" exporter="Camunda Modeler" exporterVersion="1.16.2" modeler:version="1.0en" modeler:exportDateTime="20150216104339475" modeler:modelId="933057" modeler:modelVersion="3" modeler:modelLastUpdated="1424083415708">
+  <signal id="cancelApplication" name="cancelApplication" />
+  <process id="hireProcessWithJpa" name="Developer Hiring" isExecutable="true" camunda:versionTag="1.2">
+    <extensionElements>
+      <camunda:properties>
+        <camunda:property />
+      </camunda:properties>
+    </extensionElements>
+    <userTask id="sid-42BAE58A-8FFB-4B02-AAED-E0D8EA5A7E39" name="Telephone interview" camunda:candidateGroups="dev-managers">
+      <documentation>Conduct a telephone interview with ${applicant.name}. Phone number = ${applicant.phoneNumber}</documentation>
+      <incoming>SequenceFlow_0y7gt5c</incoming>
+    </userTask>
+    <exclusiveGateway id="sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" />
+    <sequenceFlow id="sid-B468226B-DB2E-421E-B04B-5FF1622F3E78" name="ok" sourceRef="sid-42BAE58A-8FFB-4B02-AAED-E0D8EA5A7E39" targetRef="sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" />
+    <endEvent id="sid-A4859521-98BA-44EA-A9B1-55445823CE0D" />
+    <sequenceFlow id="sid-D536B119-9F6C-45B6-B1B6-8142AE70208A" sourceRef="sid-59C993BD-38A0-4DC3-97BC-F58FD94E38A9" targetRef="sid-A4859521-98BA-44EA-A9B1-55445823CE0D" />
+    <subProcess id="sid-304989D1-D3EC-4F89-A288-2238C7941973" name="subProcess">
+      <startEvent id="sid-48CEC12C-2047-4B8B-94E9-371A379C3CF3" />
+      <parallelGateway id="sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA" />
+      <userTask id="sid-C2137C46-166B-4F9B-92A1-97BF920FCD9E" name="Tech interview" camunda:candidateGroups="dev-management" />
+      <userTask id="sid-14429F68-4A79-47DC-A3F0-21804629FD88" name="Financial negotiation" camunda:candidateGroups="finance" />
+      <parallelGateway id="sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E" />
+      <endEvent id="sid-DB05DC5F-A576-4E77-803A-C41AB0694245" />
+      <sequenceFlow id="sid-6984E944-1910-459D-8527-CAE4D8D8AB72" sourceRef="sid-48CEC12C-2047-4B8B-94E9-371A379C3CF3" targetRef="sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA" />
+      <sequenceFlow id="sid-246A0361-34E8-4E82-B9B4-732C78C6596A" sourceRef="sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA" targetRef="sid-C2137C46-166B-4F9B-92A1-97BF920FCD9E" />
+      <sequenceFlow id="sid-C00D2164-EADB-4D9B-B681-DD23458FA985" sourceRef="sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA" targetRef="sid-14429F68-4A79-47DC-A3F0-21804629FD88" />
+      <sequenceFlow id="sid-39F83022-C5C5-4255-946D-71FD6574D4A3" sourceRef="sid-C2137C46-166B-4F9B-92A1-97BF920FCD9E" targetRef="sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E" />
+      <sequenceFlow id="sid-77C4C52B-6069-45FD-9AF3-6C86D20FF754" sourceRef="sid-14429F68-4A79-47DC-A3F0-21804629FD88" targetRef="sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E" />
+      <sequenceFlow id="sid-9487131F-299B-4B07-9524-77477ACAFCC0" sourceRef="sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E" targetRef="sid-DB05DC5F-A576-4E77-803A-C41AB0694245" />
+    </subProcess>
+    <sequenceFlow id="sid-2857CC85-AFAB-4DAB-9FBD-B7F41D396538" sourceRef="sid-BE9CDC49-2ED2-4FEF-A7DC-564EFA71A4DE" targetRef="sid-4A90B630-E902-41D9-854B-E75D06714074" />
+    <endEvent id="sid-4A90B630-E902-41D9-854B-E75D06714074" />
+    <serviceTask id="sid-9DFC483F-2C57-4378-AE25-30460BD3838F" name="Store Applicant resume" camunda:expression="${resumeService.storeResume(applicant.name)}">
+      <extensionElements>
+        <camunda:field name="">
+          <camunda:string></camunda:string>
+        </camunda:field>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="Input_3j1iveq" />
+        </camunda:inputOutput>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-366D79F8-23D7-4E3F-8F0F-3C29545C81FB" sourceRef="sid-9DFC483F-2C57-4378-AE25-30460BD3838F" targetRef="Task_0c8dv9v" />
+    <startEvent id="sid-E0DD2D8E-0672-4BE0-97A4-933DD8771EFF" name=" process process process" />
+    <sequenceFlow id="sid-D4DD49AB-01E3-4A84-9B46-7CE0C414D71D" sourceRef="sid-E0DD2D8E-0672-4BE0-97A4-933DD8771EFF" targetRef="sid-9DFC483F-2C57-4378-AE25-30460BD3838F" />
+    <sequenceFlow id="sid-F967A26E-3C8E-45AD-B791-C473491DA988" name="refusé" sourceRef="sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" targetRef="sid-59C993BD-38A0-4DC3-97BC-F58FD94E38A9">
+      <conditionExpression xsi:type="tFormalExpression">${telephoneInterviewOutcome == false}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-F659050F-BF12-43FD-BE60-F0E235B1A32B" sourceRef="sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" targetRef="sid-304989D1-D3EC-4F89-A288-2238C7941973">
+      <conditionExpression xsi:type="tFormalExpression">${telephoneInterviewOutcome == true}</conditionExpression>
+    </sequenceFlow>
+    <boundaryEvent id="sid-BE9CDC49-2ED2-4FEF-A7DC-564EFA71A4DE" name="applicant cancels" attachedToRef="sid-304989D1-D3EC-4F89-A288-2238C7941973">
+      <signalEventDefinition signalRef="cancelApplication" />
+    </boundaryEvent>
+    <exclusiveGateway id="sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" default="sid-014FAF0B-EBA1-411B-AF4F-CC7EA848FF89" />
+    <sequenceFlow id="sid-73AC3A3C-D128-4664-BC6C-7AF08FEDC8CA" sourceRef="sid-304989D1-D3EC-4F89-A288-2238C7941973" targetRef="sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" />
+    <endEvent id="sid-088F6DA0-EA68-4A29-9BC3-76B9D5C5E2E0" name="rejected" />
+    <endEvent id="sid-76F28F61-0B2A-41BA-8A71-5E4C9C7828E4" name="accepted" />
+    <sequenceFlow id="sid-B950EB17-8AE6-4F23-8888-FDCEE4797A21" sourceRef="sid-F2ADA953-6FCF-42FA-B59E-45DAC6EACFA7" targetRef="sid-76F28F61-0B2A-41BA-8A71-5E4C9C7828E4" />
+    <sequenceFlow id="sid-014FAF0B-EBA1-411B-AF4F-CC7EA848FF89" sourceRef="sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" targetRef="sid-088F6DA0-EA68-4A29-9BC3-76B9D5C5E2E0" />
+    <sequenceFlow id="sid-59B08F72-9D7C-4CD5-A850-14E10328FD7B" sourceRef="sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" targetRef="sid-F2ADA953-6FCF-42FA-B59E-45DAC6EACFA7">
+      <conditionExpression xsi:type="tFormalExpression">${techOk &amp;&amp; financialOk}</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="sid-59C993BD-38A0-4DC3-97BC-F58FD94E38A9" name="Send rejection email" camunda:expression="${resumeService.sendMail(applicant.email, &#39;rejection&#39;)}">
+      <extensionElements>
+        <camunda:field name="to">
+          <camunda:expression>${applicant.email}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="subject">
+          <camunda:string>Your application has been rejected</camunda:string>
+        </camunda:field>
+        <camunda:field name="html">
+          <camunda:expression>Dear ${applicant.name},
+
+We're sorry to inform you that your recent application has been rejected. We have stored your information in our data systems and will contact you if in the future a potential matching application is posted on our website.
+
+Regards,
+My Corp</camunda:expression>
+        </camunda:field>
+      </extensionElements>
+      <incoming>sid-F967A26E-3C8E-45AD-B791-C473491DA988</incoming>
+      <incoming>SequenceFlow_1yugojh</incoming>
+      <outgoing>sid-D536B119-9F6C-45B6-B1B6-8142AE70208A</outgoing>
+    </serviceTask>
+    <serviceTask id="sid-F2ADA953-6FCF-42FA-B59E-45DAC6EACFA7" name="Send welcome mail" camunda:expression="${resumeService.sendMail(applicant.email, &#39;welcome&#39;)}">
+      <extensionElements>
+        <camunda:field name="to">
+          <camunda:expression>${applicant.email}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="from">
+          <camunda:expression>test@activiti.org</camunda:expression>
+        </camunda:field>
+        <camunda:field name="subject">
+          <camunda:string>Your application has been accepted!</camunda:string>
+        </camunda:field>
+        <camunda:field name="html">
+          <camunda:expression>Dear ${applicant.name},
+
+We're happy to inform you that your recent application has been accepted.  We will contact you soon for more information.
+
+Regards,
+My Corp</camunda:expression>
+        </camunda:field>
+      </extensionElements>
+      <incoming>sid-59B08F72-9D7C-4CD5-A850-14E10328FD7B</incoming>
+      <outgoing>sid-B950EB17-8AE6-4F23-8888-FDCEE4797A21</outgoing>
+    </serviceTask>
+    <businessRuleTask id="Task_0c8dv9v" name="Règle poste ouvert" camunda:resultVariable="ouvert" camunda:decisionRef="Decision_13nyxhf" camunda:mapDecisionResult="singleEntry">
+      <incoming>sid-366D79F8-23D7-4E3F-8F0F-3C29545C81FB</incoming>
+      <outgoing>SequenceFlow_0ibvyex</outgoing>
+    </businessRuleTask>
+    <exclusiveGateway id="ExclusiveGateway_05kcc0e">
+      <incoming>SequenceFlow_0ibvyex</incoming>
+      <outgoing>SequenceFlow_0y7gt5c</outgoing>
+      <outgoing>SequenceFlow_1yugojh</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="SequenceFlow_0ibvyex" sourceRef="Task_0c8dv9v" targetRef="ExclusiveGateway_05kcc0e" />
+    <sequenceFlow id="SequenceFlow_0y7gt5c" name="ouvert" sourceRef="ExclusiveGateway_05kcc0e" targetRef="sid-42BAE58A-8FFB-4B02-AAED-E0D8EA5A7E39">
+      <conditionExpression xsi:type="tFormalExpression">${ouvert == true}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="SequenceFlow_1yugojh" name="fermé" sourceRef="ExclusiveGateway_05kcc0e" targetRef="sid-59C993BD-38A0-4DC3-97BC-F58FD94E38A9">
+      <conditionExpression xsi:type="tFormalExpression">${ouvert == false}</conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_hireProcess">
+    <bpmndi:BPMNPlane id="BPMNPlane_hireProcess" bpmnElement="hireProcessWithJpa">
+      <bpmndi:BPMNShape id="BPMNShape_sid-42BAE58A-8FFB-4B02-AAED-E0D8EA5A7E39" bpmnElement="sid-42BAE58A-8FFB-4B02-AAED-E0D8EA5A7E39">
+        <omgdc:Bounds x="531" y="185" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" bpmnElement="sid-47ECD3C6-CA48-40D8-B478-6C26A122FA28" isMarkerVisible="true">
+        <omgdc:Bounds x="698" y="205" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-A4859521-98BA-44EA-A9B1-55445823CE0D" bpmnElement="sid-A4859521-98BA-44EA-A9B1-55445823CE0D">
+        <omgdc:Bounds x="567" y="584" width="28" height="28" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-304989D1-D3EC-4F89-A288-2238C7941973" bpmnElement="sid-304989D1-D3EC-4F89-A288-2238C7941973" isExpanded="true">
+        <omgdc:Bounds x="782" y="119" width="532" height="320" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-48CEC12C-2047-4B8B-94E9-371A379C3CF3" bpmnElement="sid-48CEC12C-2047-4B8B-94E9-371A379C3CF3">
+        <omgdc:Bounds x="817" y="260" width="30" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA" bpmnElement="sid-904B6A3F-4D05-408C-BF50-25194FBFE4CA">
+        <omgdc:Bounds x="892" y="255" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-C2137C46-166B-4F9B-92A1-97BF920FCD9E" bpmnElement="sid-C2137C46-166B-4F9B-92A1-97BF920FCD9E">
+        <omgdc:Bounds x="997" y="169" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-14429F68-4A79-47DC-A3F0-21804629FD88" bpmnElement="sid-14429F68-4A79-47DC-A3F0-21804629FD88">
+        <omgdc:Bounds x="997" y="304" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E" bpmnElement="sid-E16BD1C2-F09E-4946-A65A-3D2FBF1FC62E">
+        <omgdc:Bounds x="1142" y="258" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-DB05DC5F-A576-4E77-803A-C41AB0694245" bpmnElement="sid-DB05DC5F-A576-4E77-803A-C41AB0694245">
+        <omgdc:Bounds x="1227" y="264" width="28" height="28" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-4A90B630-E902-41D9-854B-E75D06714074" bpmnElement="sid-4A90B630-E902-41D9-854B-E75D06714074">
+        <omgdc:Bounds x="993" y="501" width="28" height="28" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-9DFC483F-2C57-4378-AE25-30460BD3838F" bpmnElement="sid-9DFC483F-2C57-4378-AE25-30460BD3838F">
+        <omgdc:Bounds x="111" y="185" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-E0DD2D8E-0672-4BE0-97A4-933DD8771EFF" bpmnElement="sid-E0DD2D8E-0672-4BE0-97A4-933DD8771EFF">
+        <omgdc:Bounds x="29" y="210" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="2" y="247" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-BE9CDC49-2ED2-4FEF-A7DC-564EFA71A4DE" bpmnElement="sid-BE9CDC49-2ED2-4FEF-A7DC-564EFA71A4DE">
+        <omgdc:Bounds x="1211" y="424" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="1183" y="400" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" bpmnElement="sid-3D63E564-D35A-42E3-A81E-6D7DF325D118" isMarkerVisible="true">
+        <omgdc:Bounds x="1378" y="259" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-088F6DA0-EA68-4A29-9BC3-76B9D5C5E2E0" bpmnElement="sid-088F6DA0-EA68-4A29-9BC3-76B9D5C5E2E0">
+        <omgdc:Bounds x="1518" y="265" width="28" height="28" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="1512" y="297" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-76F28F61-0B2A-41BA-8A71-5E4C9C7828E4" bpmnElement="sid-76F28F61-0B2A-41BA-8A71-5E4C9C7828E4">
+        <omgdc:Bounds x="1518" y="131" width="28" height="28" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="1510" y="159" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-59B08F72-9D7C-4CD5-A850-14E10328FD7B" bpmnElement="sid-59B08F72-9D7C-4CD5-A850-14E10328FD7B">
+        <omgdi:waypoint x="1399" y="260" />
+        <omgdi:waypoint x="1399" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-39F83022-C5C5-4255-946D-71FD6574D4A3" bpmnElement="sid-39F83022-C5C5-4255-946D-71FD6574D4A3">
+        <omgdi:waypoint x="1097" y="209" />
+        <omgdi:waypoint x="1162.5" y="209" />
+        <omgdi:waypoint x="1162.5" y="258.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-C00D2164-EADB-4D9B-B681-DD23458FA985" bpmnElement="sid-C00D2164-EADB-4D9B-B681-DD23458FA985">
+        <omgdi:waypoint x="912.5" y="294.5" />
+        <omgdi:waypoint x="912.5" y="344" />
+        <omgdi:waypoint x="997" y="344" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-6984E944-1910-459D-8527-CAE4D8D8AB72" bpmnElement="sid-6984E944-1910-459D-8527-CAE4D8D8AB72">
+        <omgdi:waypoint x="846.9997106676825" y="275.0931659047682" />
+        <omgdi:waypoint x="892.375" y="275.375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-246A0361-34E8-4E82-B9B4-732C78C6596A" bpmnElement="sid-246A0361-34E8-4E82-B9B4-732C78C6596A">
+        <omgdi:waypoint x="912.5" y="255.5" />
+        <omgdi:waypoint x="912.5" y="209" />
+        <omgdi:waypoint x="997" y="209" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-B950EB17-8AE6-4F23-8888-FDCEE4797A21" bpmnElement="sid-B950EB17-8AE6-4F23-8888-FDCEE4797A21">
+        <omgdi:waypoint x="1449" y="145" />
+        <omgdi:waypoint x="1518" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-D536B119-9F6C-45B6-B1B6-8142AE70208A" bpmnElement="sid-D536B119-9F6C-45B6-B1B6-8142AE70208A">
+        <omgdi:waypoint x="581" y="542" />
+        <omgdi:waypoint x="581" y="584" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-366D79F8-23D7-4E3F-8F0F-3C29545C81FB" bpmnElement="sid-366D79F8-23D7-4E3F-8F0F-3C29545C81FB">
+        <omgdi:waypoint x="211" y="225" />
+        <omgdi:waypoint x="269" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-2857CC85-AFAB-4DAB-9FBD-B7F41D396538" bpmnElement="sid-2857CC85-AFAB-4DAB-9FBD-B7F41D396538">
+        <omgdi:waypoint x="1226" y="454" />
+        <omgdi:waypoint x="1226" y="515" />
+        <omgdi:waypoint x="1021" y="515" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-9487131F-299B-4B07-9524-77477ACAFCC0" bpmnElement="sid-9487131F-299B-4B07-9524-77477ACAFCC0">
+        <omgdi:waypoint x="1181.621794871795" y="278.37820512820514" />
+        <omgdi:waypoint x="1227.0002839785393" y="278.0891701657418" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-014FAF0B-EBA1-411B-AF4F-CC7EA848FF89" bpmnElement="sid-014FAF0B-EBA1-411B-AF4F-CC7EA848FF89">
+        <omgdi:waypoint x="1418" y="279" />
+        <omgdi:waypoint x="1518" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-77C4C52B-6069-45FD-9AF3-6C86D20FF754" bpmnElement="sid-77C4C52B-6069-45FD-9AF3-6C86D20FF754">
+        <omgdi:waypoint x="1097" y="344" />
+        <omgdi:waypoint x="1162" y="344" />
+        <omgdi:waypoint x="1162" y="298" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-F659050F-BF12-43FD-BE60-F0E235B1A32B" bpmnElement="sid-F659050F-BF12-43FD-BE60-F0E235B1A32B">
+        <omgdi:waypoint x="738" y="225" />
+        <omgdi:waypoint x="782" y="226" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-D4DD49AB-01E3-4A84-9B46-7CE0C414D71D" bpmnElement="sid-D4DD49AB-01E3-4A84-9B46-7CE0C414D71D">
+        <omgdi:waypoint x="59" y="225" />
+        <omgdi:waypoint x="111" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-F967A26E-3C8E-45AD-B791-C473491DA988" bpmnElement="sid-F967A26E-3C8E-45AD-B791-C473491DA988">
+        <omgdi:waypoint x="719" y="244" />
+        <omgdi:waypoint x="719" y="502" />
+        <omgdi:waypoint x="631" y="502" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="724" y="359" width="31" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-73AC3A3C-D128-4664-BC6C-7AF08FEDC8CA" bpmnElement="sid-73AC3A3C-D128-4664-BC6C-7AF08FEDC8CA">
+        <omgdi:waypoint x="1314" y="279" />
+        <omgdi:waypoint x="1378" y="279" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-B468226B-DB2E-421E-B04B-5FF1622F3E78" bpmnElement="sid-B468226B-DB2E-421E-B04B-5FF1622F3E78">
+        <omgdi:waypoint x="631" y="225" />
+        <omgdi:waypoint x="698" y="225" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="658" y="207" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1e65cz9_di" bpmnElement="sid-59C993BD-38A0-4DC3-97BC-F58FD94E38A9">
+        <omgdc:Bounds x="531" y="462" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0z7w6tx_di" bpmnElement="sid-F2ADA953-6FCF-42FA-B59E-45DAC6EACFA7">
+        <omgdc:Bounds x="1349" y="105" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_07xk5xc_di" bpmnElement="Task_0c8dv9v">
+        <omgdc:Bounds x="269" y="185" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_05kcc0e_di" bpmnElement="ExclusiveGateway_05kcc0e" isMarkerVisible="true">
+        <omgdc:Bounds x="411" y="200" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ibvyex_di" bpmnElement="SequenceFlow_0ibvyex">
+        <omgdi:waypoint x="371" y="225" />
+        <omgdi:waypoint x="411" y="225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0y7gt5c_di" bpmnElement="SequenceFlow_0y7gt5c">
+        <omgdi:waypoint x="461" y="225" />
+        <omgdi:waypoint x="531" y="225" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="475" y="203" width="31" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1yugojh_di" bpmnElement="SequenceFlow_1yugojh">
+        <omgdi:waypoint x="436" y="250" />
+        <omgdi:waypoint x="436" y="502" />
+        <omgdi:waypoint x="531" y="502" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="444" y="351" width="28" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
