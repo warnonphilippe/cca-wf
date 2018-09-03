@@ -82,7 +82,7 @@ public class EngineFacade {
      * @param processInstanceId
      * @return
      */
-    public TaskQuery findClaimableTasks(String user, List<String> groups, String processKey, String processInstanceId){
+    public TaskQuery findClaimableTasks(String user, List<String> groups, String processKey, String processInstanceId, String processInstanceBusinessKey){
 
         TaskQuery query = taskService.createTaskQuery()
             .tenantIdIn(getCurrentTenant());
@@ -115,6 +115,10 @@ public class EngineFacade {
             query.processInstanceId(processInstanceId);
         }
 
+        if (processInstanceBusinessKey != null){
+            query.processInstanceBusinessKey(processInstanceBusinessKey);
+        }
+
         return query;
 
     }
@@ -126,7 +130,7 @@ public class EngineFacade {
      * @param processInstanceId
      * @return
      */
-    public TaskQuery findAssignedTasks(String user, String processKey, String processInstanceId){
+    public TaskQuery findAssignedTasks(String user, String processKey, String processInstanceId, String processInstanceBusinessKey){
 
         TaskQuery query = taskService.createTaskQuery()
             .tenantIdIn(getCurrentTenant());
@@ -139,6 +143,10 @@ public class EngineFacade {
 
         if (processInstanceId != null){
             query.processInstanceId(processInstanceId);
+        }
+
+        if (processInstanceBusinessKey != null){
+            query.processInstanceBusinessKey(processInstanceBusinessKey);
         }
 
         return query;

@@ -72,9 +72,10 @@ public class EngineFacadeResource {
                                                             @RequestParam(value="user", required=false) String user,
                                                             @RequestParam(value="groups", required=false) List<String> groups,
                                                             @RequestParam(value="processKey", required=false) String processKey,
-                                                            @RequestParam(value="processInstanceId", required=false) String processInstanceId) {
+                                                            @RequestParam(value="processInstanceId", required=false) String processInstanceId,
+                                                            @RequestParam(value="processInstanceBusinessKey", required=false)String processInstanceBusinessKey) {
 
-        TaskQuery query = engineFacade.findClaimableTasks(user, groups, processKey, processInstanceId);
+        TaskQuery query = engineFacade.findClaimableTasks(user, groups, processKey, processInstanceId, processInstanceBusinessKey);
         return executeTaskQuery(query, pageable, "/workflow/tasks-claimable");
     }
 
@@ -87,10 +88,11 @@ public class EngineFacadeResource {
     @GetMapping(value = "/my-tasks-claimable")
     @Secured({AuthoritiesConstants.USER})
     public ResponseEntity<List<TaskDto>> findMyClaimableTasks(Pageable pageable,
-                                                                   @RequestParam(value="processKey", required=false) String processKey,
-                                                                   @RequestParam(value="processInstanceId", required=false) String processInstanceId) {
+                                                              @RequestParam(value="processKey", required=false) String processKey,
+                                                              @RequestParam(value="processInstanceId", required=false) String processInstanceId,
+                                                              @RequestParam(value="processInstanceBusinessKey", required=false)String processInstanceBusinessKey) {
 
-        TaskQuery query = engineFacade.findClaimableTasks(getCurrentUser(), getCurrentGroups(), processKey, processInstanceId);
+        TaskQuery query = engineFacade.findClaimableTasks(getCurrentUser(), getCurrentGroups(), processKey, processInstanceId, processInstanceBusinessKey);
         return executeTaskQuery(query, pageable, "/workflow/my-tasks-claimable");
     }
 
@@ -104,11 +106,12 @@ public class EngineFacadeResource {
     @GetMapping(value = "/tasks-assigned")
     @Secured({AuthoritiesConstants.ADMIN})
     public ResponseEntity<List<TaskDto>> findAssignedTasks(Pageable pageable,
-                                                                @RequestParam("user") String user,
-                                                                @RequestParam(value="processKey", required=false) String processKey,
-                                                                @RequestParam(value="processInstanceId", required=false) String processInstanceId) {
+                                                           @RequestParam("user") String user,
+                                                           @RequestParam(value="processKey", required=false) String processKey,
+                                                           @RequestParam(value="processInstanceId", required=false) String processInstanceId,
+                                                           @RequestParam(value="processInstanceBusinessKey", required=false)String processInstanceBusinessKey) {
 
-        TaskQuery query = engineFacade.findAssignedTasks(user, processKey, processInstanceId);
+        TaskQuery query = engineFacade.findAssignedTasks(user, processKey, processInstanceId, processInstanceBusinessKey);
         return executeTaskQuery(query, pageable, "/workflow/tasks-assigned");
     }
 
@@ -121,10 +124,11 @@ public class EngineFacadeResource {
     @GetMapping(value = "/my-tasks-assigned")
     @Secured({AuthoritiesConstants.USER})
     public ResponseEntity<List<TaskDto>> findMyAssignedTasks(Pageable pageable,
-                                                                  @RequestParam(value="processKey", required=false) String processKey,
-                                                                  @RequestParam(value="processInstanceId", required=false) String processInstanceId) {
+                                                             @RequestParam(value="processKey", required=false) String processKey,
+                                                             @RequestParam(value="processInstanceId", required=false) String processInstanceId,
+                                                             @RequestParam(value="processInstanceBusinessKey", required=false)String processInstanceBusinessKey) {
 
-        TaskQuery query = engineFacade.findAssignedTasks(getCurrentUser(), processKey, processInstanceId);
+        TaskQuery query = engineFacade.findAssignedTasks(getCurrentUser(), processKey, processInstanceId, processInstanceBusinessKey);
         return executeTaskQuery(query, pageable, "/workflow/my-tasks-assigned");
     }
 
