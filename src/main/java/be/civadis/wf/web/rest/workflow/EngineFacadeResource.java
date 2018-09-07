@@ -45,6 +45,12 @@ public class EngineFacadeResource {
         this.engineFacade = engineFacade;
     }
 
+    @GetMapping(value = "/hello")
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
+    public ResponseEntity<Boolean> hello(){
+        return ResponseEntity.ok(true);
+    }
+
     /**
      * Start un process workflow
      * @param processName nom du process
@@ -53,7 +59,7 @@ public class EngineFacadeResource {
      * @return
      */
     @PostMapping(value = "/processes/{processName}/start")
-    //@Secured({AuthoritiesConstants.ADMIN})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<ProcessInstanceDto> startProcess(@PathVariable String processName, @RequestParam(value="businessKey", required = false) String businessKey, @RequestBody Map<String, Object> variables){
         ProcessInstance processInstance = engineFacade.startProcess(processName, businessKey, variables);
         return response(ProcessInstanceDto.fromProcessInstance(processInstance));
@@ -86,7 +92,7 @@ public class EngineFacadeResource {
      * @return
      */
     @GetMapping(value = "/my-tasks-claimable")
-    @Secured({AuthoritiesConstants.USER})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<List<TaskDto>> findMyClaimableTasks(Pageable pageable,
                                                               @RequestParam(value="processKey", required=false) String processKey,
                                                               @RequestParam(value="processInstanceId", required=false) String processInstanceId,
@@ -122,7 +128,7 @@ public class EngineFacadeResource {
      * @return
      */
     @GetMapping(value = "/my-tasks-assigned")
-    @Secured({AuthoritiesConstants.USER})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<List<TaskDto>> findMyAssignedTasks(Pageable pageable,
                                                              @RequestParam(value="processKey", required=false) String processKey,
                                                              @RequestParam(value="processInstanceId", required=false) String processInstanceId,
@@ -153,7 +159,7 @@ public class EngineFacadeResource {
      * @param taskId
      */
     @PostMapping(value = "/my-tasks/{taskId}/claim")
-    @Secured({AuthoritiesConstants.USER})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<Boolean> myClaim(@PathVariable("taskId") String taskId){
         Task task = engineFacade.findClaimableTask(taskId, getCurrentUser(), getCurrentGroups());
         if (task != null){
@@ -179,7 +185,7 @@ public class EngineFacadeResource {
      * @param taskId
      */
     @PostMapping(value = "/my-tasks/{taskId}/unclaim")
-    @Secured({AuthoritiesConstants.USER})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<Boolean> myUnclaim(@PathVariable("taskId") String taskId){
         Task task = engineFacade.findAssignedTask(taskId, getCurrentUser());
         if (task != null){
@@ -207,7 +213,7 @@ public class EngineFacadeResource {
      * @param params
      */
     @PostMapping(value = "/my-tasks/{taskId}/complete")
-    @Secured({AuthoritiesConstants.USER})
+    @Secured({AuthoritiesConstants.SERVICE_WF_CLIENT})
     public ResponseEntity<Boolean> myCompleteTask(@PathVariable("taskId") String taskId, @RequestBody Map<String, Object> params){
         //check si le user peut traité la tache ou si elle lui est assignée
         Task task = engineFacade.findClaimableTask(taskId, getCurrentUser(), getCurrentGroups());
