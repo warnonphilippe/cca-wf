@@ -52,7 +52,7 @@ public class HireProcessRestController {
         Task task = engineFacade.findClaimableTasks(
             null,
             Arrays.asList("dev-managers"),
-            null, processInstance.getId()).singleResult();
+            null, processInstance.getId(), null).singleResult();
 
         if (task != null){
 
@@ -64,7 +64,7 @@ public class HireProcessRestController {
             engineFacade.claim(task.getId(), "phw");
 
             // Check assigned task
-            List<Task> taskAssignedList = engineFacade.findAssignedTasks("phw", null, null).list();
+            List<Task> taskAssignedList = engineFacade.findAssignedTasks("phw", null, null, null).list();
             if (!"Telephone interview".equalsIgnoreCase(taskAssignedList.get(0).getName())){
                 throw new RuntimeException("Tel interview should be assigned");
             }
@@ -75,7 +75,7 @@ public class HireProcessRestController {
             engineFacade.completeTask(task.getId(), taskVariables);
 
             // Liste des tâches d'un process donné
-            List<Task> tasks = engineFacade.findClaimableTasks(null, null, null, processInstance.getId())
+            List<Task> tasks = engineFacade.findClaimableTasks(null, null, null, processInstance.getId(), null)
                 .orderByTaskName().asc()
                 .list();
 
