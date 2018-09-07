@@ -79,14 +79,14 @@ public class HireProcessTest {
         Task task = engineFacade.findClaimableTasks(
                 null,
                 Arrays.asList("dev-managers"),
-                null, processInstance.getId()).singleResult();
+                null, processInstance.getId(), null).singleResult();
         Assert.assertEquals("Telephone interview", task.getName());
 
         // Claim the task
         engineFacade.claim(task.getId(), "phw");
 
         // Check assigned task
-        List<Task> taskAssignedList = engineFacade.findAssignedTasks("phw", null, null).list();
+        List<Task> taskAssignedList = engineFacade.findAssignedTasks("phw", null, null, null).list();
         Assert.assertEquals("Telephone interview", taskAssignedList.get(0).getName());
 
         // Completing the phone interview with success should trigger two new tasks
@@ -95,7 +95,7 @@ public class HireProcessTest {
         engineFacade.completeTask(task.getId(), taskVariables);
 
         // Liste des tâches d'un process donné
-        List<Task> tasks = engineFacade.findClaimableTasks(null, null, null, processInstance.getId())
+        List<Task> tasks = engineFacade.findClaimableTasks(null, null, null, processInstance.getId(), null)
                 .orderByTaskName().asc()
                 .list();
         Assert.assertEquals(2, tasks.size());
